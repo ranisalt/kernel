@@ -1,0 +1,12 @@
+language: minimal
+dist: xenial
+
+cache: ccache
+services:
+  - docker
+
+install:
+  - docker build -t builder .
+
+script:
+  - docker run --mount "type=bind,src=$HOME/.ccache,dst=/home/builduser/.ccache" builder /bin/sh -c 'sudo chmod -Rv 777 ~/.ccache; yes | makepkg -s;'
